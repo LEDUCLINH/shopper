@@ -13,7 +13,7 @@ import { CartProvider } from './contexts/cart'
 import Cart from './components/cart.component';
 import Forget from './components/forget.component';
 import ErrLogin from './components/errLogin.component';
-import Pagination from './components/pagination.component'; 
+
 class App extends  Component {
   constructor(props){
     super(props);
@@ -41,8 +41,7 @@ class App extends  Component {
         <Route path="/shoppage" component={Shoppage}/>
         <Route path="/cart" component={Cart} />         
         <Route path="/forget" component={Forget} />         
-        <Route path="/errlogin" component={ErrLogin} />         
-        <Route path="/page" component={Pagination} />         
+        <Route path="/errlogin" component={ErrLogin} />                
         <Footer />  
       </Router>
       </CartProvider> }

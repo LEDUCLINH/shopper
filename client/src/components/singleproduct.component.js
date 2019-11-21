@@ -6,7 +6,7 @@ export class Singleproduct extends Component {
     render() {
         return (
             <div>
-             AAAAA
+          
             </div>
         );
     }

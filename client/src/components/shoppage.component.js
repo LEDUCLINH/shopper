@@ -8,7 +8,7 @@ import querySearch from "stringquery";
 export class Shoppage extends Component {
     constructor(props) {
         super(props);
-
+console.log('constructor')
         this.state = {
             pager: {},
             pageOfItems: [],
@@ -71,12 +71,14 @@ export class Shoppage extends Component {
         }
     }
     componentDidMount() {
+        console.log('didmount');
         this.props.history.push('\shoppage?page=1');
         this.loadPage();
 
     }
 
     componentDidUpdate(a, b) {
+        console.log('didupdate');
         this.loadPage();
     }
     onMouseDown(e){
@@ -119,8 +121,8 @@ export class Shoppage extends Component {
     }
     render() {
         const { pager, pageOfItems } = this.state;
+        console.log('render')
         return (
-
             <React.Fragment>
                 {!this.state.loading ? <div className="container" id="/shoppage">
                     <select size={this.state.size} onMouseDown={this.onMouseDown}   id="classess__product" 
