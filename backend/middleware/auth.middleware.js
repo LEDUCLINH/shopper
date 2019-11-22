@@ -2,8 +2,12 @@ const User  = require('../models/users.model');
 var jwt = require('jsonwebtoken');
 
 module.exports.requiredAuth = function(req, res, next) {
-    var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET__KEY);
-    console.log(new Date())
+   jwt.verify(req.headers['authorization'], process.env.SECRET__KEY, function(err, decoded){
+        if (err){
+            let message = err.message
+          return  res.status(401).json({message})
+        }
+        console.log("OK")
     const user = {
         _id: decoded._id,
         name: decoded.name,
@@ -19,5 +23,7 @@ module.exports.requiredAuth = function(req, res, next) {
            res.send(400).json("Unauthorization")
         }
     })
+    });
+
 }
 

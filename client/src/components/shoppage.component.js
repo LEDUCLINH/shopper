@@ -45,7 +45,20 @@ console.log('constructor')
                         });
                     })
                     .catch(err => {
-                        this.props.history.push('/errlogin');
+                        console.log(err.response.data.message )
+                        if (err.response.data.message === 'jwt expired') {
+                            let refreshToken = localStorage.getItem('refreshToken');
+                        axios.post('http://localhost:4000/login/refreshToken', {refreshToken})
+                        .then(res => {
+                            localStorage.setItem('token',res.data.token);
+                        })
+                        .catch(err => {
+                            console.log("123")
+                        })
+                        }
+                        else {
+                            this.props.history.push('/errlogin');
+                        }
                     })
             }
         }
@@ -71,14 +84,14 @@ console.log('constructor')
         }
     }
     componentDidMount() {
-        console.log('didmount');
+      
         this.props.history.push('\shoppage?page=1');
         this.loadPage();
 
     }
 
     componentDidUpdate(a, b) {
-        console.log('didupdate');
+     
         this.loadPage();
     }
     onMouseDown(e){
@@ -121,7 +134,7 @@ console.log('constructor')
     }
     render() {
         const { pager, pageOfItems } = this.state;
-        console.log('render')
+      
         return (
             <React.Fragment>
                 {!this.state.loading ? <div className="container" id="/shoppage">

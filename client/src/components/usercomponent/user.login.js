@@ -39,6 +39,7 @@ export class userLogIn extends Component {
         axios.post('http://localhost:4000/login', userLogIn)
         .then(res => {
             localStorage.setItem('token', res.data.token);
+            localStorage.setItem('refreshToken', res.data.refreshToken);
             localStorage.setItem('name', this.state.name);
            this.setState({
                notification: res.data,
@@ -82,8 +83,10 @@ export class userLogIn extends Component {
                 logout:true,
             })
         localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
         localStorage.removeItem('login');
         localStorage.removeItem('name');
+        localStorage.removeItem('avatar');
         })
         .catch(err =>{
             console.log(err)

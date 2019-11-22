@@ -3,8 +3,6 @@ const User = require('../models/users.model');
 const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-var randtoken = require('rand-token');
-var tokenList  = {} ;
 
 router.route('/').get(function(req, res) {
     res.send('<form method="POST" action="/login"><input name="name" /><input name="password"/><button>POST</button></form>')
@@ -23,10 +21,6 @@ router.route('/').post(function(req, res) {
                             }
                           let token = jwt.sign(payload, process.env.SECRET__KEY, {expiresIn: process.env.tokenLife});
                           let refreshToken = jwt.sign(payload, process.env.REFRESH__SECRET__KEY, {expiresIn: process.env.refreshTokenLife});
-                          console.log(token.expiresIn);
-                          tokenList[refreshToken] = loginUser;
-                    //    res.setHeader("authorization", token);
-                    //    console.log(token);
                        res.status(200).json({
                            token: token,
                            avatar: nameUser.avatar,
@@ -47,7 +41,34 @@ router.route('/').post(function(req, res) {
         }
     })
 })
-
+router.route('/refreshToken').post(function(req, res) {
+    const refreshTokenFromClient = req.body.refreshToken;
+    if ( refreshTokenFromClient ) {
+          // Verify kiểm tra tính hợp lệ của cái refreshToken và lấy dữ liệu giải mã decoded 
+          const user =  jwt.verify(refreshTokenFromClient, process.env.REFRESH__SECRET__KEY);
+          const payload = {
+            _id: user._id,
+            email: user.email,
+            name: user.name
+          }
+          User.findOne(
+            payload
+        , function(err, user){
+            if(user){
+               let token = jwt.sign(payload, process.env.SECRET__KEY, {expiresIn: process.env.tokenLife});
+            return    res.status(200).json({token});
+            }
+            if (err){
+               res.send(400).json("Unauthorization")
+            }
+        })
+      } else {
+        // Không tìm thấy token trong request
+        return res.status(403).send({
+          message: 'No token provided.',
+        });
+      }
+})
 router.route('/forget').post(function(req, res) {
     const { email } = req.body;
     User.findOne({email:email}, function(err, user) {
