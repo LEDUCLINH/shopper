@@ -1,16 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component, useContext } from 'react'
 import { CartContext } from '../contexts/cart'
 import { Link } from 'react-router-dom'
 import Comback from '../images/comeback.jpg'
 
-export class Cart extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            value: 1
-        }   
-    }
-    render() {
+
+
+export default function CartHook(props) {
+    
         console.log(localStorage.getItem('length'));
         return (
             <div className="container " id="addCart"> 
@@ -76,6 +72,6 @@ export class Cart extends Component {
             </div>
         );
     }
-}
 
-export default Cart;
+
+export default CartHook;
