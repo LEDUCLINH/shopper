@@ -78,14 +78,14 @@ router.route('/forget').post(function(req, res) {
         var transporter =  nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'linhducle123@gmail.com',
-                pass: 'Bongda24h'
+                user: process.env.EMAIL,
+                pass: process.env.PASS
             }
         });
       
         var capcha = Math.floor(Math.random()*1000000);
         var mailOptions = {
-            from: 'linhducle123@gmail.com',
+            from: process.env.EMAIL,
             to: email,
             subject: "Forget Password",
             text: `${capcha}`

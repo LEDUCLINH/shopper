@@ -81,12 +81,12 @@ router.route('/register').post( upload.single('avatar'), [
                             var transporter =  nodemailer.createTransport({
                                 service: 'gmail',
                                 auth: {
-                                    user: 'linhducle123@gmail.com',
-                                    pass: 'Bongda24h'
+                                    user: process.env.EMAIL,
+                                    pass: process.env.PASS
                                 }
                             });
                             var mailOptions = {
-                                from: 'linhducle123@gmail.com',
+                                from: process.env.EMAIL,
                                 to: 'nhat@yopmail.com',
                                 subject: "Well come to shopper",
                                 text: `Hi Nhat, Congratuation`
